@@ -4,6 +4,7 @@
 ## Requisitos
 - [Python 3.11](https://www.python.org/downloads/)
 - [FFmpeg](https://www.ffmpeg.org/download.html)
+- [MikTex](https://miktex.org/)
 
 ## Ambiente
     
@@ -20,5 +21,5 @@ pip install -r requirements.txt
 Ejecución de la aplicación:
 
 ```bash
-
+manim file.py Class
 ```
