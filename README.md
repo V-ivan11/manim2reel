@@ -1,5 +1,5 @@
 # manim2reel
- Creates videos from manim library.
+Proyecto personal para elaborar animaciones verticales con **manim**.
 
 ## Requisitos
 - [Python 3.11](https://www.python.org/downloads/)
@@ -21,5 +21,5 @@ pip install -r requirements.txt
 Ejecución de la aplicación:
 
 ```bash
-manim file.py Class
+manim file.py -p Class
 ```
