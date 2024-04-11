@@ -166,3 +166,40 @@ class PythagoreanTheorem(Scene):
         self.play(Create(square_a), Create(square_b), Create(square_c))
         self.play(Write(label_a), Write(label_b), Write(label_c))
         self.wait()
+
+class MovingPointAndArc(Scene): 
+    def construct(self): 
+        dot = Dot(color=RED).move_to(ORIGIN)
+        arc = Arc(radius=1, angle=0, color=BLUE)
+
+        def update_func(mob: Arc):
+            mob.angle = dot.get_x()
+            mob.generate_points()
+
+        self.add(dot, arc)
+        self.wait()
+        self.play(dot.animate.shift(TAU * RIGHT), UpdateFromFunc(arc, update_func))
+
+
+class Compass(Scene):
+    def construct(self):
+        # Definir la línea inicial desde el origen hasta un punto determinado
+        line = Line(np.array([0, 0, 0]), np.array([3, 2, 0]), color=BLUE)
+
+        # Definir el círculo que simula el compás
+        circle = Circle(radius=line.get_length(), color=RED)
+
+        # Añadir una punta en la línea
+        arrow = Arrow(ORIGIN, UP, color=BLUE).scale(0.2).next_to(line.get_end(), direction=UP)
+
+        # Animar la rotación de la línea y dibujar el círculo
+        self.play(Create(line), Create(circle), run_time=2)
+        self.play(Rotate(line, angle=PI/2, about_point=ORIGIN), Rotate(circle, angle=PI/2, about_point=ORIGIN))
+        self.play(Rotate(line, angle=PI/2, about_point=ORIGIN), Rotate(circle, angle=PI/2, about_point=ORIGIN))
+        self.play(Rotate(line, angle=PI/2, about_point=ORIGIN), Rotate(circle, angle=PI/2, about_point=ORIGIN))
+        self.play(Rotate(line, angle=PI/2, about_point=ORIGIN), Rotate(circle, angle=PI/2, about_point=ORIGIN))
+        self.play(FadeOut(line), FadeOut(circle), FadeOut(arrow))
+
+        self.wait()
+
+
