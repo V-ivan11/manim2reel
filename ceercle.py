@@ -33,15 +33,24 @@ class Ceercle(Scene):
         square_a.move_to([-b/2 - a/2, 0, 0])
         square_b.move_to([0, -a/2 - b/2, 0])
 
-        label_a2 = MathTex('a^2', color="#0061ff").next_to(square_a, DOWN)
-        label_b2 = MathTex('b^2', color="#3082ff").next_to(square_b, RIGHT)
-        label_c2 = MathTex('c^2', color="#60efff").next_to(square_c, RIGHT)
+        label_a2 = MathTex(
+            'a^2', color="#ffffff").move_to(
+                square_a.get_center()
+        ).scale(1.5)
+        label_b2 = MathTex(
+            'b^2', color="#ffffff").move_to(
+                square_b.get_center()
+        ).scale(1.5)
+        label_c2 = MathTex(
+            'c^2', color="#ffffff").move_to(
+                square_c.get_center()
+        ).scale(1.5)
 
         cuadrados = VGroup(square_a, square_b, square_c, label_a2, label_b2, label_c2)
 
         # Plano cartesiano
         plano = (
-            NumberPlane(x_range=(-7, 7, 1), y_range=(-7, 7, 1),
+            NumberPlane(x_range=(-6, 6, 1), y_range=(-7, 7, 1),
                         background_line_style={
                             "stroke_color": TEAL,
                             "stroke_width": 4,
@@ -49,7 +58,9 @@ class Ceercle(Scene):
                             },
                         )
         )
-        labels_plano = plano.get_axis_labels(x_label="x", y_label="y")
+        labels_plano = plano.get_axis_labels(
+            x_label="x", y_label="y"
+        )
 
         # Animaciones
         self.add(circulo)
@@ -74,9 +85,18 @@ class Ceercle(Scene):
             triangulo.animate.rotate(PI, axis = Y_AXIS)
             
         )
-        label_a = always_redraw(lambda: MathTex('a', color="#0061ff").next_to(triangulo, RIGHT))
-        label_b = always_redraw(lambda: MathTex('b', color="#3082ff").next_to(triangulo, DOWN))
-        label_c = always_redraw(lambda: MathTex('c', color="#60efff").move_to(self.get_center_of_hypotenuse(triangulo.get_vertices())))
+        label_a = always_redraw(
+            lambda: MathTex('a', color="#0061ff").next_to(
+                triangulo, RIGHT).scale(1.5)
+        )
+        label_b = always_redraw(
+            lambda: MathTex('b', color="#3082ff").next_to(
+                triangulo, DOWN).scale(1.5)
+        )
+        label_c = always_redraw(
+            lambda: MathTex('c', color="#60efff").move_to(
+                self.get_center_of_hypotenuse(triangulo.get_vertices())).scale(1.5)
+        )
         labels_t = VGroup(label_a, label_b)
         self.play(
             triangulo.animate.set_fill(opacity=0),
@@ -101,7 +121,13 @@ class Ceercle(Scene):
         pasos[0].set_color_by_gradient("#0061ff","#60efff").scale(1.8).move_to(t_pitagoras.get_center())
         pasos[1].set_color_by_gradient("#0061ff","#60efff").scale(2).move_to(t_pitagoras.get_center())
         # Si c es igual al radio
-        texto_aux = Text("Si c es igual al radio").scale(1.5).next_to(plano, 2*DOWN)
+        texto_aux1 = Text(
+            "Si c es constante con el origen", t2w={'[3:4]':BOLD}, t2c={'[3:4]':YELLOW}
+        ).scale(1.5).next_to(plano, 2*DOWN)
+        texto_aux2 = Text(
+            "tenemos el radio", t2w={'radio':BOLD}, t2c={'radio':YELLOW}
+        ).scale(1.5).next_to(texto_aux1, 2*DOWN)
+        texto_aux = VGroup(texto_aux1, texto_aux2)
 
         self.play(
             FadeOut(labels_t),
@@ -113,7 +139,7 @@ class Ceercle(Scene):
         )
         self.play(ReplacementTransform(t_pitagoras, pasos[0]))
         self.wait(1)
-        # Rotamos el radio hasta quedar en el eje x
+
         self.play(Rotate(radio_line, angle=-0.643501, about_point=ORIGIN), run_time=2)
         self.play(
             ReplacementTransform(pasos[0], pasos[1]),
@@ -125,21 +151,24 @@ class Ceercle(Scene):
             run_time = 2
         )
         self.play(Circumscribe(pasos[1]))
-        # Fill the circle with the color
+
         self.play(FadeOut(radio_t), FadeOut(radio_line), run_time=1)
         self.play(circulo_f.animate.set_fill(color="#60efff", opacity=0.6), FadeOut(plano), FadeOut(labels_plano), FadeOut(ecuacion_t))
-        self.wait(2)
+        self.wait(1)
+        self.play(FadeOut(pasos[1]))
 
 
-    # Function given 2 coordinates of a rotated square (side) and lenght, returns all the coordinates of the square
     def get_other_coordinates(self, p1, p2, side):
+        """
+        Retorna todas las coordenadas 3D de un cuadrado, dado dos puntos y un lado.
+        """
         x1 = p1[0]
         y1 = p1[1]
         x2 = p2[0]
         y2 = p2[1]
-        # Get the angle of the line
+
         angle = np.arctan((y2 - y1)/(x2 - x1))
-        # Get the other 2 points of the square
+
         x3 = x1 + side*np.cos(angle + np.pi/2)
         y3 = y1 + side*np.sin(angle + np.pi/2)
         x4 = x2 + side*np.cos(angle + np.pi/2)
@@ -147,6 +176,9 @@ class Ceercle(Scene):
         return [[x1, y1, 0], [x2, y2, 0], [x3, y3, 0], [x4, y4, 0]]
     
     def get_center_of_hypotenuse(self, vertices, extra_space=0.5):
+        """
+        Retorna el centro de la hipotenusa de un triángulo.
+        """
         max_length = 0
         index_of_vertices = []
         for i in range(len(vertices)):
@@ -155,13 +187,16 @@ class Ceercle(Scene):
                 if length > max_length:
                     max_length = length
                     index_of_vertices = [i, j]
-        # Find the center of the hypotenuse
+
         center = (vertices[index_of_vertices[0]] + vertices[index_of_vertices[1]])/2
-        # extra_space on y
+
         center[1] += extra_space
         return center
     
     def get_location_radio(self, vertices, extra_space=0.5):
+        """
+        Retorna la ubicación del centro entre 2 vertices.
+        """
         center = (vertices[0] + vertices[1])/2
         center[1] += extra_space
         return center
