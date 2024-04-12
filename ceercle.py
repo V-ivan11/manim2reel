@@ -11,7 +11,7 @@ class Ceercle(Scene):
         circulo.set_fill(color="#60efff", opacity=0.6)
 
         t1 = Text("¿Cómo pasamos de esto?").scale(1.5).next_to(circulo, 5*UP)
-        t2 = Text("a esto:").scale(1.5).next_to(circulo, 5*UP)
+        t2 = Text("¿a esto?").scale(1.5).next_to(circulo, 5*UP)
 
         ecuacion = MathTex(r"x^2 + y^2 = r^2").move_to(ORIGIN).scale(4).set_color_by_gradient("#0061ff","#60efff")
 
@@ -154,7 +154,6 @@ class Ceercle(Scene):
 
         self.play(FadeOut(radio_t), FadeOut(radio_line), run_time=1)
         self.play(circulo_f.animate.set_fill(color="#60efff", opacity=0.6), FadeOut(plano), FadeOut(labels_plano), FadeOut(ecuacion_t))
-        self.wait(1)
         self.play(FadeOut(pasos[1]))
 
 
