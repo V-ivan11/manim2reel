@@ -23,3 +23,7 @@ Ejecución de la aplicación:
 ```bash
 manim file.py -p Class
 ```
+## Ejemplos de ilustraciones
+
+Algunos ejemplos de ilustraciones realizadas con **manim**, que se encuentran en *ilustraciones.py* son:
+

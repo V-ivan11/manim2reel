@@ -1,4 +1,5 @@
 import pandas as pd
+
 def obtener_coords_manim(puntos: pd.DataFrame, dims: int) -> list:
     """
     Obtiene las coordenadas de los puntos de un DataFrame de Pandas x, y, z.
@@ -20,3 +21,15 @@ def obtener_coords_manim(puntos: pd.DataFrame, dims: int) -> list:
                 punto.append(puntos.iloc[i, j])
         lista_puntos.append(punto)
     return lista_puntos
+
+def lista2coords(lista: list) -> list:
+    """
+    Convierte una lista de listas de 2 dimensiones en una lista de coordenadas para manim.
+
+    Args:
+    lista (list): Lista de listas.
+
+    Returns:
+    list: Lista de coordenadas para manim.
+    """
+    return [[lista[i][0], lista[i][1], 0] for i in range(len(lista))]
