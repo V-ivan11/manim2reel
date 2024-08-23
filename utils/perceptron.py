@@ -44,16 +44,15 @@ class Perceptron:
     def frontera_decision(self):
         """
         Retorna la frontera de decisión del perceptrón de 2 categorías.
+        Empezando en x = 40 y terminando en x = 80.
+        Con y iniciando en 40 y terminando en 100.
         """
-        # Intercepto con el eje x
-        x2 = -self.bias/self.weights[0]
-        y2 = 0
-
-        # Intercepto con el eje y
-        x1 = 0
-        y1 = -self.bias/self.weights[1]
-
-        return [x1, float(y1)], [float(x2), y2]
+        x1 = 40
+        y1 = (-self.weights[0]*x1 - self.bias[0])/self.weights[1]
+        x2 = 75
+        y2 = (-self.weights[0]*x2 - self.bias[0])/self.weights[1]
+    
+        return [x1, float(y1)], [float(x2), float(y2)]
     
     def error(self):
         """
